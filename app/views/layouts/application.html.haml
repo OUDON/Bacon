@@ -8,5 +8,6 @@
     = javascript_include_tag 'application'
   %body
     %p.notice #{ notice }
-    %p.alert  #{alert }
-    = yield
+    %p.alert  #{ alert }
+    .container
+      = yield

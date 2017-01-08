@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        screen_name: 'ユーザ名'
+        atcoder_id:  'AtCoder ID'
