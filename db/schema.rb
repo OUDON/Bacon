@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108172610) do
+ActiveRecord::Schema.define(version: 20170108180443) do
+
+  create_table "contestants", force: :cascade do |t|
+    t.integer  "contest_id", null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contest_id", "user_id"], name: "index_contestants_on_contest_id_and_user_id", unique: true
+    t.index ["contest_id"], name: "index_contestants_on_contest_id"
+    t.index ["user_id"], name: "index_contestants_on_user_id"
+  end
 
   create_table "contests", force: :cascade do |t|
     t.string   "title",                     null: false
