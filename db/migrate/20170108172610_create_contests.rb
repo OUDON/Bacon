@@ -9,6 +9,7 @@ class CreateContests < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    add_index :contests, [:title, :created_at]
+    add_index :contests, :title 
+    add_index :contests, :created_at
   end
 end

@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 20170108172610) do
     t.integer  "problem_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.index ["created_at"], name: "index_contests_on_created_at"
     t.index ["problem_id"], name: "index_contests_on_problem_id"
-    t.index ["title", "created_at"], name: "index_contests_on_title_and_created_at"
+    t.index ["title"], name: "index_contests_on_title"
   end
 
   create_table "problems", force: :cascade do |t|
