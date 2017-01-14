@@ -16,6 +16,8 @@ gem 'devise-i18n-views'
 
 gem 'simple_form'
 gem 'bootstrap-sass'
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 
 gem 'nokogiri'
 
