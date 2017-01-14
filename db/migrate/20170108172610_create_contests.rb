@@ -4,7 +4,6 @@ class CreateContests < ActiveRecord::Migration[5.0]
       t.string     :title,        null: false
       t.integer    :penalty_time, null: false, default: 0
       t.text       :standings,    null: false, default: ""
-      t.references :problem
 
       t.timestamps
     end

@@ -26,14 +26,12 @@ ActiveRecord::Schema.define(version: 20170109085700) do
     t.string   "title",                     null: false
     t.integer  "penalty_time", default: 0,  null: false
     t.text     "standings",    default: "", null: false
-    t.integer  "problem_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.datetime "start_at"
     t.datetime "end_at"
     t.index ["created_at"], name: "index_contests_on_created_at"
     t.index ["end_at"], name: "index_contests_on_end_at"
-    t.index ["problem_id"], name: "index_contests_on_problem_id"
     t.index ["start_at"], name: "index_contests_on_start_at"
     t.index ["title"], name: "index_contests_on_title"
   end
