@@ -1,0 +1,20 @@
+%h1.page-header= @contest.title
+%h2 コンテスト情報
+%div
+  = render 'contest_form'
+
+%h2 問題一覧
+- for problem in @contest_problems
+  #problem
+    %a{ class: "problem", href: problem.url }= problem.title
+
+%h2 問題を追加
+%div
+  = simple_form_for(:problem,
+      url: add_problem_path,
+      html: { class: 'form-horizontal' },
+      wrapper: :horizontal_form,
+    ) do |f|
+    = f.input :url, as: :string, label: 'URL'
+    = f.button :submit, "Add Problem"
+

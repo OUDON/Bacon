@@ -1,11 +1,3 @@
 %h1.page-header コンテストの新規作成
 %div
-  = simple_form_for(@contest, 
-      html: { class: 'form-horizontal' },
-      wrapper: :horizontal_form,
-    ) do |f|
-    = f.input :title
-    = f.input :penalty_time
-    = f.input :start_at, as: :date_time_picker
-    = f.input :end_at,   as: :date_time_picker
-    = f.button :submit
+ = render 'contest_form'

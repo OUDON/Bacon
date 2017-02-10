@@ -2,6 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def admin_user
+    if !current_user or !current_user.admin?
+      flash[:danger] = '編集する権限がありません'
+      redirect_to root_path
+    end
+  end
+
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:screen_name, :atcoder_id])
