@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109085700) do
+ActiveRecord::Schema.define(version: 20170213180151) do
 
   create_table "contestants", force: :cascade do |t|
     t.integer  "contest_id", null: false
@@ -45,6 +45,22 @@ ActiveRecord::Schema.define(version: 20170109085700) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["contest_id"], name: "index_problems_on_contest_id"
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.string   "submission_id",  null: false
+    t.string   "problem_id",     null: false
+    t.string   "problem_source", null: false
+    t.string   "status",         null: false
+    t.integer  "user_id",        null: false
+    t.datetime "date",           null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["date"], name: "index_submissions_on_date"
+    t.index ["problem_id"], name: "index_submissions_on_problem_id"
+    t.index ["status"], name: "index_submissions_on_status"
+    t.index ["submission_id"], name: "index_submissions_on_submission_id"
+    t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
