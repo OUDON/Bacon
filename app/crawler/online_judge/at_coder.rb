@@ -70,13 +70,13 @@ module OnlineJudge
     end
 
     def self.get_problem_info(url)
-      url_regexp = /https?:\/\/(?<contest_source>.*)\.contest.atcoder.jp\/tasks\/(?<problem_id>.*)/
+      url_regexp = /https?:\/\/(?<problem_source>.*)\.contest.atcoder.jp\/tasks\/(?<problem_id>.*)/
       url_match = url.match(url_regexp)
       p url_match
       return nil unless url_match
 
       problem_info = { 
-        :contest_source => url_match[:contest_source],
+        :problem_source => url_match[:problem_source],
         :problem_id     => url_match[:problem_id],
         :url            => url,
       }
