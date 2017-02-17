@@ -13,6 +13,7 @@ gem 'devise'
 gem 'devise-bootstrap-views'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
+gem 'rails-i18n'
 
 gem 'simple_form'
 gem 'bootstrap-sass'

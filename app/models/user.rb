@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :contestants, dependent: :destroy
   has_many :users,       through: :contestants
+  has_many :submissions, dependent: :destroy
 end
