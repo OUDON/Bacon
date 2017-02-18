@@ -15,7 +15,7 @@ module OnlineJudge
       'user-unrated' => '#000000',
     }.freeze
 
-    def self.update_submissions(contest_name, diff_only=true, page_max=10)
+    def self.update_submissions(contest_name, diff_only: true, page_max: 10)
       Rails.logger.info("Crawling submissions for #{ contest_name }")
 
       url = 'http://' + contest_name + '.contest.atcoder.jp/submissions/all/1'
@@ -24,7 +24,6 @@ module OnlineJudge
 
       latest_judged_id  = Submission.latest_judged_submission_id(contest_name)
       latest_judging_id = Submission.latest_judging_submission_id(contest_name)
-      Rails.logger.debug("latest_judged_id = #{ latest_judged_id }")
 
       users = User.all.group_by(&:atcoder_id)
       (1...page_max).each do |page|
@@ -37,7 +36,7 @@ module OnlineJudge
 
           if latest_judging_id and submission[:submission_id] <= latest_judging_id
             status_changed = user.submissions.find_by(submission_id: submission[:submission_id])
-            status_changed.upate_attributes(submission)
+            status_changed.update_attributes(submission)
           else
             user.submissions.create(submission)
           end
