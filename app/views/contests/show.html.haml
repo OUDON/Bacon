@@ -2,3 +2,7 @@
 .date
   %p 開始日時: #{ @contest.start_at }
   %p 終了日時: #{ @contest.end_at }
+
+%h2 順位表
+.standings
+  = render 'standings', { standings: @contest.standings, problems: @contest.problems }

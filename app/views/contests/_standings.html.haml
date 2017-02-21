@@ -1,0 +1,29 @@
+%table{ class: 'table table-striped table-bordered' }
+  %thead
+    %tr
+      %th.center{ width: '5%'  } 順位
+      %th.center{ width: '15%' } ユーザ名
+      - problems.each do |problem|
+        %th.center
+          %a{ href: problem.url, target: '_blank' }= problem.title
+      %th.center{ width: '10%' } 得点
+  %tbody
+    - standings.each do |row|
+      - user_name  = row.user_info[:screen_name]
+      - name_color = row.user_info[:name_color]
+      %tr
+        %td.center= row.rank
+        %td.center
+          %a{ style: "color:#{ name_color };", class: "user-name", href: '#' }
+            = user_name
+        - row.problem_statuses.each do |result|
+          %td.center
+            - if result.accepted
+              %span.label.label-success<>= 'AC'
+            - if result.penalty_wa > 0
+              %span.label.label-danger<> #{result.penalty_wa}
+            - if !result.accepted and result.penalty_wa == 0
+              %span<> -
+        %td.center
+          %span.standings-score<>= row.score
+          %span.standings-wa<>= "(#{row.penalty_wa})" if row.penalty_wa > 0

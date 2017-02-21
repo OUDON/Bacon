@@ -1,0 +1,47 @@
+/* User */
+.user-name {
+  font-weight: bold;
+}
+
+
+/* Standings */
+.label {
+  padding: 2px 6px 2px 6px;
+  margin: 0px 2px 0px 2px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #999999;
+  border-radius: 3px
+}
+
+.label-success {
+  background-color: #5cb85c;
+}
+
+.label-warning {
+  background-color: #f89406;
+}
+
+.label-danger {
+  background-color: #d9534f;
+}
+
+.standings-wa {
+  color: #ff0000;
+  padding: 0px 2px 0px 2px;
+}
+
+.standings-score {
+  color: #0000ff;
+  font-weight: bold;
+  padding: 0px 2px 0px 2px;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table .center {
+  text-align: center;
+}
