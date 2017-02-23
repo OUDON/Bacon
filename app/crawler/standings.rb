@@ -8,10 +8,10 @@ class Standings
     @contest = contest
     @problems = contest.problems
     @problem_idxs = problems.map.with_index { |p, i| [[p.problem_source, p.problem_id], i] }.to_h
-    initialize_standings
   end
 
   def update(submissions)
+    return unless contest.users.any?
     initialize_standings
     submissions.each do |submission|
       author = submission.user_id
@@ -48,8 +48,8 @@ class Standings
 
   def compute_rank
     standings_array = standings.values
-    puts standings_array.inspect
     @standings = standings_array.sort_by{ |row| [-row.score, row.penalty_time + row.penalty_wa] }
+    return unless standings.any?
 
     standings[0].rank = 1
     1.upto(standings.size - 1) do |i|
