@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217061018) do
+ActiveRecord::Schema.define(version: 20170223075705) do
 
   create_table "contestants", force: :cascade do |t|
     t.integer  "contest_id", null: false
@@ -23,17 +23,24 @@ ActiveRecord::Schema.define(version: 20170217061018) do
   end
 
   create_table "contests", force: :cascade do |t|
-    t.string   "title",                     null: false
-    t.integer  "penalty_time", default: 0,  null: false
-    t.text     "standings",    default: "", null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "title",                             null: false
+    t.integer  "penalty_time", default: 5,          null: false
+    t.text     "standings",    default: "--- []\n", null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.datetime "start_at"
     t.datetime "end_at"
     t.index ["created_at"], name: "index_contests_on_created_at"
     t.index ["end_at"], name: "index_contests_on_end_at"
     t.index ["start_at"], name: "index_contests_on_start_at"
     t.index ["title"], name: "index_contests_on_title"
+  end
+
+  create_table "problem_sources", force: :cascade do |t|
+    t.string   "problem_source",       null: false
+    t.string   "latest_submission_id", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "problems", force: :cascade do |t|

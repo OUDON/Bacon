@@ -11,14 +11,14 @@ module DataUpdater
 
   def self.update_submissions
     current_contests = Contest.in_progress
-    problem_sources = Set.new
     current_contests.each do |contest|
+      problem_sources = Set.new
       contest.problems.each do |problem|
         problem_sources.add(problem.problem_source)
       end
-    end
-    problem_sources.each do |problem_source|
-      OnlineJudge::AtCoder.update_submissions(problem_source)
+      problem_sources.each do |problem_source|
+        OnlineJudge::AtCoder.update_submissions(problem_source)
+      end
     end
   end
 

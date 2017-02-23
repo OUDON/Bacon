@@ -15,25 +15,31 @@ module OnlineJudge
       'user-unrated' => '#000000',
     }.freeze
 
-    def self.update_submissions(contest_name, diff_only: true, page_max: 10)
-      Rails.logger.info("Crawling submissions for #{ contest_name }")
+    def self.update_submissions(problem_source, diff_only: true, page_max: 10)
+      Rails.logger.info("Crawling submissions for #{ problem_source }")
 
-      url = 'http://' + contest_name + '.contest.atcoder.jp/submissions/all/1'
+      url = 'http://' + problem_source + '.contest.atcoder.jp/submissions/all/1'
       doc = Nokogiri::HTML.parse(open(url).read)
       page_max = [page_max, doc.css('div.pagination > ul > li')[-2].children.text.to_i].min
 
-      latest_judged_id  = Submission.latest_judged_submission_id(contest_name)
-      latest_judging_id = Submission.latest_judging_submission_id(contest_name)
+      latest_judged_id  = ProblemSource.find_by(problem_source: problem_source).try(:latest_submission_id)
+      latest_judging_id = Submission.latest_judging_submission_id(problem_source)
 
       users = User.all.group_by(&:atcoder_id)
+      latest_submission_id = nil
       (1...page_max).each do |page|
-        submissions =  self.get_submission(contest_name, page)
+        submissions =  self.get_submission(problem_source, page)
+        latest_submission_id = submissions[0][:submission_id] if page == 1
+        continue = true
         for submission in submissions
-          return if diff_only and latest_judged_id and submission[:submission_id] <= latest_judged_id
+          if diff_only and latest_judged_id and submission[:submission_id] <= latest_judged_id
+            continue = false
+            break
+          end
           next unless users.has_key?(submission[:atcoder_id])
+
           user = users[submission[:atcoder_id]][0]
           submission.delete(:atcoder_id)
-
           if latest_judging_id and submission[:submission_id] <= latest_judging_id
             status_changed = user.submissions.find_by(submission_id: submission[:submission_id])
             status_changed.update_attributes(submission)
@@ -41,8 +47,10 @@ module OnlineJudge
             user.submissions.create(submission)
           end
         end
+        break unless continue
         sleep(1.0)
       end
+      
     end
 
     def self.update_user_info(atcoder_id)
@@ -88,8 +96,8 @@ module OnlineJudge
     end
 
     private
-    def self.get_submission(contest_name, page)
-      url = 'http://' + contest_name + '.contest.atcoder.jp/submissions/all/' + page.to_s
+    def self.get_submission(problem_source, page)
+      url = 'http://' + problem_source + '.contest.atcoder.jp/submissions/all/' + page.to_s
       doc = Nokogiri::HTML.parse(open(url).read)
       submissions = doc.css('table > tbody > tr')
 
@@ -99,7 +107,7 @@ module OnlineJudge
         tmp[:atcoder_id]     = submission.css('td > a')[1].attribute('href').value.split('/')[-1]
         tmp[:submission_id]  = submission.css('td > a')[3].attribute('href').value.split('/')[-1]
         tmp[:problem_id]     = submission.css('td > a')[0].attribute('href').value.split('/')[-1]
-        tmp[:problem_source] = contest_name
+        tmp[:problem_source] = problem_source
         tmp[:status]         = submission.css('td > span')[0].inner_text
         tmp[:date]           = submission.css('td')[0].inner_text
         if tmp[:status] == 'WJ' or tmp[:status].match(%r{[0-9]*\/[0-9]})
@@ -110,4 +118,11 @@ module OnlineJudge
       submissions_list
     end
   end
+
+  def self.update_latest_submission_id(problem_source, latest_submission_id)
+    ps = ProblemSource.find_or_initialize_by(problem_source: problem_source)
+    ps.latest_submission_id = latest_submission_id
+    ps.save
+  end
+
 end
