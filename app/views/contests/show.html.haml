@@ -1,7 +1,6 @@
 %h1.page-header= @contest.title
-.date
-  %p 開始日時: #{ @contest.start_at }
-  %p 終了日時: #{ @contest.end_at }
+.date-label
+  %p= "#{ @contest.start_at } - #{ @contest.end_at }"
 
 - if @contest.contestant?(current_user)
   %h2 順位表

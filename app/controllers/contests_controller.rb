@@ -1,6 +1,6 @@
 class ContestsController < ApplicationController
-  # before_action :admin_user, except: :show
-  before_action :logged_in_user, only: :show
+  # before_action :admin_user, except: [:show, :index]
+  before_action :logged_in_user, only: [:show, :index]
   
   def new
     @contest = Contest.new
@@ -14,6 +14,10 @@ class ContestsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def index
+    @contests = Contest.all
   end
 
   def show
