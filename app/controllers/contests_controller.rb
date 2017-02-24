@@ -1,5 +1,6 @@
 class ContestsController < ApplicationController
   # before_action :admin_user, except: :show
+  before_action :logged_in_user, only: :show
   
   def new
     @contest = Contest.new
@@ -8,6 +9,8 @@ class ContestsController < ApplicationController
   def create
     @contest = Contest.new(contest_params)
     if @contest.save
+      flash[:success] = 'コンテストを作成しました'
+      redirect_to edit_contest_path(@contest.id)
     else
       render 'new'
     end
@@ -35,6 +38,6 @@ class ContestsController < ApplicationController
 
   private
   def contest_params
-    params.require(:contest).permit(:title, :penalty_time, :start_at, :end_at)
+    params.require(:contest).permit(:title, :penalty_time, :start_at, :end_at, :user_id)
   end
 end

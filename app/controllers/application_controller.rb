@@ -9,6 +9,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def logged_in_user
+    if !current_user
+      flash[:danger] = 'ログインしてください'
+      redirect_to new_user_session_path
+    end
+  end
+
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:screen_name, :atcoder_id])
