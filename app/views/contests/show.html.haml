@@ -2,7 +2,7 @@
 .date-label
   %p= "#{ @contest.start_at } - #{ @contest.end_at }"
 
-- if @contest.contestant?(current_user)
+- if @contest.contestant?(current_user) or @contest.past?
   %h2 順位表
   .standings
     = render 'standings', { standings: @contest.standings, problems: @contest.problems }

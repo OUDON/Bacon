@@ -21,6 +21,10 @@ class Contest < ApplicationRecord
     start_at <= at and at < end_at
   end
 
+  def future?(at=Time.now)
+    start_at > at
+  end
+
   def past?(at=Time.now)
     end_at <= at
   end
