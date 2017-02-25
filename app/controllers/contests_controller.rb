@@ -1,5 +1,5 @@
 class ContestsController < ApplicationController
-  # before_action :admin_user, except: [:show, :index]
+  before_action :admin_user, only: [:new, :create, :edit, :update]
   before_action :logged_in_user, only: [:show, :index]
   
   def new
@@ -29,6 +29,16 @@ class ContestsController < ApplicationController
   def edit
     @contest = Contest.find(params[:id])
     @contest_problems = @contest.problems
+  end
+
+  def update
+    @contest = Contest.find(params[:id])
+    if @contest.update_attributes(contest_params)
+      flash[:success] = "コンテスト情報を編集しました"
+      redirect_to @contest
+    else
+      render 'edit'
+    end
   end
 
   def add_problem
