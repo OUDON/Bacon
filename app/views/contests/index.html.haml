@@ -1,15 +1,10 @@
 %h1.page-header コンテスト一覧
 
-%table.contests.table.table-hover
-  %thead
-    %tr
-      %th.col-md-6 コンテスト名
-      %th.col-md-3 開始時刻
-      %th.col-md-3 終了時刻
-  %tbody
-    - @contests.each do |contest|
-      %tr
-        %td
-          %a{ href: contest_path(contest.id) }= contest.title
-        %td= contest.start_at
-        %td= contest.end_at
+%h2 開催中のコンテスト
+= render 'contests_list', contests: @contests_current
+%hr/
+%h2 開催予定のコンテスト
+= render 'contests_list', contests: @contests_future
+%hr/
+%h2 終了したコンテスト
+= render 'contests_list', contests: @contests_past

@@ -17,7 +17,9 @@ class ContestsController < ApplicationController
   end
 
   def index
-    @contests = Contest.all
+    @contests_current = Contest.in_progress
+    @contests_future  = Contest.future
+    @contests_past    = Contest.past
   end
 
   def show
