@@ -1,0 +1,16 @@
+%header.navbar.navbar-fixed-top.navbar-inverse
+  .container
+    = link_to 'Bacon', root_path, id: 'logo'
+    %nav
+      %ul.nav.navbar-nav.navbar-right
+        - if signed_in?
+          %li.dropdown
+            %a{ href: '#', class: 'dropdown-toggle', 'data-toggle': 'dropdown' }
+              = current_user.screen_name 
+              %b.caret
+            %ul.dropdown-menu
+              %li= link_to 'ユーザ設定', edit_user_registration_path(current_user)
+              %li.divider
+              %li= link_to 'ログアウト', destroy_user_session_path, method: 'delete'
+        - else
+          %li= link_to 'ログイン', new_user_session_path
