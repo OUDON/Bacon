@@ -12,18 +12,24 @@
       - user_name  = row.user_info[:screen_name]
       - name_color = row.user_info[:name_color]
       %tr
-        %td.center= row.rank
-        %td.center
+        %td.center.middle= row.rank
+        %td.center.middle
           %a{ style: "color:#{ name_color };", class: "user-name", href: '#' }
             = user_name
         - row.problem_statuses.each do |result|
-          %td.center
+          %td.center.middle
             - if result.accepted
               %span.label.label-success<>= 'AC'
             - if result.penalty_wa > 0
               %span.label.label-danger<> #{result.penalty_wa}
+            - if result.accepted
+              %p.penalty-time= penalty_time_str(result.penalty_time)
             - if !result.accepted and result.penalty_wa == 0
               %span<> -
-        %td.center
-          %span.standings-score<>= row.score
-          %span.standings-wa<>= "(#{row.penalty_wa})" if row.penalty_wa > 0
+        %td.center.middle
+          - if row.score > 0
+            %span.standings-score<>= row.score
+            %span.standings-wa<>= "(#{row.penalty_wa})" if row.penalty_wa > 0
+            %p.penalty-time= penalty_time_str(row.penalty)
+          - else
+            %span<> -

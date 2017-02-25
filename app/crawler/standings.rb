@@ -1,7 +1,7 @@
 class Standings
   attr_reader :contest, :problems, :problem_idxs, :standings
 
-  StandingsRow  = Struct.new(:user_info, :rank, :problem_statuses, :score, :penalty_time, :penalty_wa)
+  StandingsRow  = Struct.new(:user_info, :rank, :problem_statuses, :score, :penalty_time, :penalty_wa, :penalty)
   ProblemStatus = Struct.new(:accepted, :penalty_time, :penalty_wa)
 
   def initialize(contest)
@@ -21,12 +21,13 @@ class Standings
       standings_row = standings[author]
       if submission.status == 'AC'
         standings_row.problem_statuses[problem].accepted = true
-        standings_row.penalty_wa += standings_row.problem_statuses[problem].penalty_wa
+        standings_row.problem_statuses[problem].penalty_time = elapsed_time(submission[:date])
         standings_row.score += 1
       elsif ['WA', 'RE', 'TLE', 'MLE'].include?(submission.status)
         standings_row.problem_statuses[problem].penalty_wa += 1
       end
     end
+    compute_penalty
     compute_rank
     contest.standings = standings
     contest.save
@@ -42,7 +43,15 @@ class Standings
         name_color:  contestant.name_color,
       }
       problem_statuses = Array.new(problems.size) { ProblemStatus.new(false, 0, 0) }
-      @standings[contestant.id] = StandingsRow.new(user_info, -1, problem_statuses, 0, 0, 0)
+      @standings[contestant.id] = StandingsRow.new(user_info, -1, problem_statuses, 0, 0, 0, 0)
+    end
+  end
+
+  def compute_penalty
+    standings.values.each do |row|
+      row.penalty_time = row.problem_statuses.map(&:penalty_time).max
+      row.penalty_wa = row.problem_statuses.map(&:penalty_wa).sum
+      row.penalty = row.penalty_time + row.penalty_wa * contest.penalty_time * 60
     end
   end
 
@@ -53,11 +62,15 @@ class Standings
 
     standings[0].rank = 1
     1.upto(standings.size - 1) do |i|
-      if [standings[i].score, standings[i].penalty_wa] == [standings[i-1].score, standings[i-1].penalty_wa]
+      if [standings[i].score, standings[i].penalty] == [standings[i-1].score, standings[i-1].penalty]
         standings[i].rank = standings[i-1].rank
       else
         standings[i].rank = i+1
       end
     end
+  end
+
+  def elapsed_time(at)
+    at - contest.start_at
   end
 end
