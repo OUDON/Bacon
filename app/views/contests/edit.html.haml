@@ -9,12 +9,4 @@
     %a{ class: "problem", href: problem.url }= problem.title
 
 %h2 問題を追加
-%div
-  = simple_form_for(:problem,
-      url: add_problem_path,
-      html: { class: 'form-horizontal' },
-      wrapper: :horizontal_form,
-    ) do |f|
-    = f.input :url, as: :string, label: 'URL'
-    = f.button :submit, "Add Problem"
-
+= render 'add_problem_form', contest: @contest, problem: @new_problem

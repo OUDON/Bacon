@@ -1,0 +1,6 @@
+= simple_form_for([contest, problem],
+    html: { class: 'form-horizontal' },
+    wrapper: :horizontal_form,
+  ) do |f|
+  = f.input :url, label: '問題 URL'
+  = f.button :submit
