@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  helper_method :admin_user?
 
   def admin_user
     if !current_user or !current_user.admin?
@@ -14,6 +15,10 @@ class ApplicationController < ActionController::Base
       flash[:danger] = 'ログインしてください'
       redirect_to new_user_session_path
     end
+  end
+
+  def admin_user?
+    current_user && current_user.admin?
   end
 
   protected
