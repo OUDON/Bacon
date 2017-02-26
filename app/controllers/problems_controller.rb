@@ -16,5 +16,9 @@ class ProblemsController < ApplicationController
   end
 
   def destroy
+    contest = Contest.find(params[:contest_id])
+    contest.problems.find(params[:id]).destroy
+    flash[:success] = '問題を削除しました'
+    redirect_to edit_contest_path(contest)
   end
 end

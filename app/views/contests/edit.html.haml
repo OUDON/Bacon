@@ -4,9 +4,12 @@
   = render 'contest_form'
 
 %h2 問題一覧
-- for problem in @contest_problems
-  .problem
-    %a{ class: "problem", href: problem.url }= problem.title
+- if @contest.problems.any?
+  - for problem in @contest.problems
+    .problem
+      %a{ class: "problem", href: problem.url }= problem.title
+- else
+  %p 問題がありません
 
 %h2 問題を追加
 = render 'add_problem_form', contest: @contest, problem: @new_problem

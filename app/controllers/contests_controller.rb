@@ -28,7 +28,6 @@ class ContestsController < ApplicationController
 
   def edit
     @contest = Contest.find(params[:id])
-    @contest_problems = @contest.problems
     @new_problem = Problem.new
   end
 
