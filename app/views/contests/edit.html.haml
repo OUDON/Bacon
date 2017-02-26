@@ -5,9 +5,7 @@
 
 %h2 問題一覧
 - if @contest.problems.any?
-  - for problem in @contest.problems
-    .problem
-      %a{ class: "problem", href: problem.url }= problem.title
+  = render 'edit_problem_list', contest: @contest
 - else
   %p 問題がありません
 

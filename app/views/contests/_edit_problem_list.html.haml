@@ -1,0 +1,9 @@
+%table.table.problem-list
+  %tbody
+    - contest.problems.each do |problem|
+      %tr
+        %td.problem
+          %a{ class: "problem", href: problem.url }= problem.title
+        %td
+          = link_to "削除", contest_problem_path(contest, problem), method: :delete
+          

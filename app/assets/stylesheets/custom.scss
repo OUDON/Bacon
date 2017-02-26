@@ -53,6 +53,12 @@ p {
 .date-label {
 }
 
+table.problem-list {
+  tbody > tr:first-child > td {
+    border: none;
+  }
+}
+
 /* Standings */
 .label {
   padding: 2px 6px 2px 6px;
