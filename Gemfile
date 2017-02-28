@@ -9,6 +9,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 gem 'whenever', require: false
+gem 'dotenv-rails'
 
 gem 'devise'
 gem 'devise-bootstrap-views'
@@ -39,4 +40,9 @@ group :development, :test do
   gem 'rspec-rails', '>= 3.5.1'
   gem 'capybara'
   gem 'factory_girl_rails'
+end
+
+group :pdocution do
+  gem 'unicorn'
+  gem 'pg'
 end
