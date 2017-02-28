@@ -4,6 +4,8 @@
     %nav
       %ul.nav.navbar-nav.navbar-right
         - if signed_in?
+          - if admin_user?
+            %li= link_to 'コンテストを作成', new_contest_path
           %li.dropdown
             %a{ href: '#', class: 'dropdown-toggle', 'data-toggle': 'dropdown' }
               = current_user.screen_name 
@@ -13,4 +15,5 @@
               %li.divider
               %li= link_to 'ログアウト', destroy_user_session_path, method: 'delete'
         - else
+          %li= link_to '新規登録', new_user_registration_path
           %li= link_to 'ログイン', new_user_session_path
