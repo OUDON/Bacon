@@ -41,17 +41,6 @@ class ContestsController < ApplicationController
     end
   end
 
-  # def add_problem
-  #   problem_info = OnlineJudge::AtCoder.get_problem_info(params[:problem][:url])
-  #   if problem_info
-  #     contest = Contest.find(params[:id])
-  #     flash[:danger] = '問題を追加できませんでした' unless contest.problems.create(problem_info)
-  #   else
-  #     flash[:danger] = '問題 URL が間違っています'
-  #   end
-  #   redirect_to edit_contest_path
-  # end
-
   private
   def contest_params
     params.require(:contest).permit(:title, :penalty_time, :start_at, :end_at, :user_id)
