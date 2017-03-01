@@ -1,9 +1,12 @@
+app_path = File.dirname(File.dirname(Dir.pwd))
+
 worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
 timeout 30
 preload_app true
 
-listen File.expand_path('tmp/unicorn.sock', ENV['RAILS_ROOT'])
-pid File.expand_path('tmp/unicorn.pid', ENV['RAILS_ROOT'])
+working_directory "#{ app_path }/current"
+listen "#{ app_path }/shared/tmp/sockets/unicorn.sock"
+pid "#{ app_path }/shared/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
@@ -24,5 +27,5 @@ after_fork do |server, worker|
     ActiveRecord::Base.establish_connection
 end
 
-stderr_path File.expand_path('log/unicorn.log', ENV['RAILS_ROOT'])
-stdout_path File.expand_path('log/unicorn.log', ENV['RAILS_ROOT'])
+stderr_path "#{ app_path }/shared/log/unicorn.stderr.log"
+stdout_path "#{ app_path }/shared/log/unicorn.stdout.log"
