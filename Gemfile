@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 gem 'whenever', require: false
 gem 'dotenv-rails'
+gem 'therubyracer', platforms: :ruby
 
 gem 'devise'
 gem 'devise-bootstrap-views'
@@ -34,6 +35,10 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
 end
 
 group :development, :test do
@@ -42,7 +47,7 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 
-group :pdocution do
+group :pdocution, :staging do
   gem 'unicorn'
   gem 'pg'
 end
