@@ -9,7 +9,7 @@
       %th.center{ width: '10%' } 得点
   %tbody
     - standings.each do |row|
-      - user_name  = row.user_info[:screen_name]
+      - user_name  = row.user_info[:user_name]
       - name_color = row.user_info[:name_color]
       %tr
         %td.center.middle= row.rank

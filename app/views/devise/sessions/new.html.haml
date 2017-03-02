@@ -4,8 +4,8 @@
   .panel-body
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f|
       .form-group
-        = f.label :email
-        = f.email_field :email, autofocus: true, class: 'form-control'
+        = f.label :user_name
+        = f.text_field :user_name, autofocus: true, class: 'form-control'
       .form-group
         = f.label :password
         = f.password_field :password, autocomplete: 'off', class: 'form-control'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223075705) do
+ActiveRecord::Schema.define(version: 20170302184230) do
 
   create_table "contestants", force: :cascade do |t|
     t.integer  "contest_id", null: false
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20170223075705) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "screen_name"
+    t.string   "user_name",                                  null: false
     t.string   "atcoder_id",                                 null: false
     t.integer  "atcoder_rating",         default: 0,         null: false
     t.boolean  "admin",                  default: false
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170223075705) do
     t.string   "name_color",             default: "#000000", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
 end

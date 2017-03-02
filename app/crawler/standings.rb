@@ -38,9 +38,9 @@ class Standings
     @standings = Hash.new
     contest.users.each do |contestant|
       user_info = {
-        id:          contestant.id,
-        screen_name: contestant.screen_name,
-        name_color:  contestant.name_color,
+        id:         contestant.id,
+        user_name:  contestant.user_name,
+        name_color: contestant.name_color,
       }
       problem_statuses = Array.new(problems.size) { ProblemStatus.new(false, 0, 0) }
       @standings[contestant.id] = StandingsRow.new(user_info, -1, problem_statuses, 0, 0, 0, 0)
