@@ -2,7 +2,7 @@ namespace :unicorn do
   desc "Start unicorn for production env."
   task(:start) do
     config_path = "#{Rails.root}/config/unicorn.rb"
-    sh "unicorn_rails -c #{config_path} -E production -D"
+    sh "unicorn_rails -c #{config_path} -E #{Rails.env} -D"
   end
 
   desc "Stop unicorn"
@@ -22,7 +22,7 @@ namespace :unicorn do
 
   def unicorn_pid
     begin
-      File.read("#{Rails.root}/tmp/unicorn.pid").to_i
+      File.read("#{Rails.root}/tmp/pids/unicorn.pid").to_i
     rescue Errno::ENOENT
       raise "Unicorn doesn't seem to be running"
     end
