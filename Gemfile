@@ -39,6 +39,9 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano-rbenv'
+  gem 'capistrano-rvm'
+  gem 'capistrano-linked-files'
+  gem 'capistrano3-unicorn'
 end
 
 group :development, :test do
