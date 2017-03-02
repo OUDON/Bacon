@@ -2,7 +2,7 @@ ja:
   activerecord:
     attributes:
       user:
-        screen_name: 'ユーザ名'
+        user_name: 'ユーザ名'
         atcoder_id:  'AtCoder ID'
       contest:
         start_at: '開始日時'
