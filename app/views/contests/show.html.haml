@@ -7,6 +7,6 @@
 - if @contest.contestant?(current_user) or @contest.past?
   %h2 順位表
   .standings
-    = render 'standings', { standings: @contest.standings, problems: @contest.problems }
+    = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
 - else
   = render 'registration'

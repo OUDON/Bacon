@@ -22,14 +22,13 @@ module DataUpdater
     end
   end
 
-  def self.update_standings
-    current_contests = Contest.in_progress
+  def self.update_standings(in_progress_only: true)
+    current_contests = in_progress_only ? Contest.in_progress : Contest.all
     current_contests.each do |contest|
       update_standings_for(contest)
     end
   end
 
-  private
   def self.update_standings_for(contest)
     standings = Standings.new(contest)
     contestants = contest.users

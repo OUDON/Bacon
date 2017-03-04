@@ -24,6 +24,7 @@ class ContestsController < ApplicationController
 
   def show
     @contest = Contest.find(params[:id])
+    @users   = User.all
   end
 
   def edit

@@ -1,7 +1,7 @@
 class Standings
   attr_reader :contest, :problems, :problem_idxs, :standings
 
-  StandingsRow  = Struct.new(:user_info, :rank, :problem_statuses, :score, :penalty_time, :penalty_wa, :penalty)
+  StandingsRow  = Struct.new(:user_id, :rank, :problem_statuses, :score, :penalty_time, :penalty_wa, :penalty)
   ProblemStatus = Struct.new(:accepted, :penalty_time, :penalty_wa)
 
   def initialize(contest)
@@ -11,8 +11,8 @@ class Standings
   end
 
   def update(submissions)
-    return unless contest.users.any?
     initialize_standings
+    return if !contest.users.any? and !problems.any?
     submissions.each do |submission|
       author = submission.user_id
       problem = problem_idxs[[submission.problem_source, submission.problem_id]]
@@ -37,20 +37,15 @@ class Standings
   def initialize_standings
     @standings = Hash.new
     contest.users.each do |contestant|
-      user_info = {
-        id:         contestant.id,
-        user_name:  contestant.user_name,
-        name_color: contestant.name_color,
-      }
       problem_statuses = Array.new(problems.size) { ProblemStatus.new(false, 0, 0) }
-      @standings[contestant.id] = StandingsRow.new(user_info, -1, problem_statuses, 0, 0, 0, 0)
+      @standings[contestant.id] = StandingsRow.new(contestant.id, -1, problem_statuses, 0, 0, 0, 0)
     end
   end
 
   def compute_penalty
     standings.values.each do |row|
-      row.penalty_time = row.problem_statuses.map(&:penalty_time).max
-      row.penalty_wa = row.problem_statuses.map(&:penalty_wa).sum
+      row.penalty_time = row.problem_statuses.map(&:penalty_time).max || 0
+      row.penalty_wa = row.problem_statuses.map(&:penalty_wa).sum || 0
       row.penalty = row.penalty_time + row.penalty_wa * contest.penalty_time * 60
     end
   end
