@@ -54,26 +54,39 @@ module OnlineJudge
     end
 
     def self.update_user_info(atcoder_id)
+      user = User.find_by(atcoder_id: atcoder_id)
+      if !user
+        Rails.logger.error "Called AtCoder.update_user_info for undefined user '#{ atcoder_id }'"
+        return false
+      end
+      user_info = get_user_info(atcoder_id) 
+      if user_info 
+        user.update_attributes(user_info)
+      end
+      true
+    end
+
+    def self.get_user_info(atcoder_id)
       url = 'https://atcoder.jp/user/' + atcoder_id
       doc = Nokogiri::HTML.parse(open(url).read)
-
-      user = User.find_by(atcoder_id: atcoder_id)
-      unless user
-        Rails.logger.error "Called AtCoder.update_user_info for undefined user '#{ atcoder_id }'"
-        return
-      end
+      user_span = doc.css('h3 > a.username > span')
+      return false unless user_span.any?
 
       user_info = Hash.new
-      user_span = doc.css('h3 > a.username > span')
       user_info[:atcoder_id] = user_span.inner_text
+      user_name_class = nil
       if user_span.attribute('class')
-        user_info[:name_color] = NAME_COLOR[user_span.attribute('class').value]
+        user_name_class = user_span.attribute('class').value
+        user_info[:name_color] = NAME_COLOR[user_name_class]
       else
         user_info[:name_color] = user_span.attribute('style').value.match(%r{color:(?<color>#[0-9A-F]*);})[:color]
       end
-      user_info[:atcoder_rating] = doc.css('dd > span')[0].inner_text 
-
-      user.update_attributes(user_info)
+      if user_name_class == 'user-unrated'
+        user_info[:atcoder_rating] = 0
+      else
+        user_info[:atcoder_rating] = doc.css('dd > span')[0].inner_text
+      end
+      user_info
     end
 
     def self.get_problem_info(url)
