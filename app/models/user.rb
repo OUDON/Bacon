@@ -5,18 +5,16 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :user_name, uniqueness: true, presence: true
+  validates :atcoder_id, uniqueness: true, presence: true
+  validate :atcoder_id_must_exists
 
   has_many :contestants, dependent: :destroy
   has_many :contests,    through: :contestants
   has_many :submissions, dependent: :destroy
 
-  # def self.find_first_by_auth_conditions(warden_conditions)
-  #   debugger
-  #   conditions = warden_conditions.dup
-  #   if login = conditions.delete(:login)
-  #     where(conditions).where(["user_name = :value", { value: user_name }]).first
-  #   else
-  #     where(conditions).first
-  #   end
-  # end
+  def atcoder_id_must_exists
+    unless OnlineJudge::AtCoder.get_user_info(atcoder_id)
+      errors.add(:atcoder_id, ' が存在しません')
+    end
+  end
 end

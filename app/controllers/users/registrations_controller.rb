@@ -9,9 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    if resource.save
-      OnlineJudge::AtCoder.update_user_info(resource.atcoder_id)
-    end
+    OnlineJudge::AtCoder.update_user_info(resource.atcoder_id) if resource.save
   end
 
   # GET /resource/edit
@@ -19,10 +17,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+    OnlineJudge::AtCoder.update_user_info(resource.atcoder_id) if resource.save
+  end
 
   # DELETE /resource
   # def destroy
