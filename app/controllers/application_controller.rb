@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :admin_user?
+  before_action :store_current_location, unless: :devise_controller?
 
   def admin_user
     if !current_user or !current_user.admin?
@@ -18,5 +19,10 @@ class ApplicationController < ActionController::Base
 
   def admin_user?
     current_user && current_user.admin?
+  end
+
+  def store_current_location
+    return if current_user
+    store_location_for(:user, request.url)
   end
 end
