@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302184230) do
+ActiveRecord::Schema.define(version: 20170308131222) do
 
   create_table "contestants", force: :cascade do |t|
     t.integer  "contest_id", null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170302184230) do
     t.datetime "updated_at",                        null: false
     t.datetime "start_at"
     t.datetime "end_at"
+    t.text     "description",  default: "",         null: false
     t.index ["created_at"], name: "index_contests_on_created_at"
     t.index ["end_at"], name: "index_contests_on_end_at"
     t.index ["start_at"], name: "index_contests_on_start_at"
