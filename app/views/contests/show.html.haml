@@ -3,6 +3,8 @@
   %p.col-sm-8.date-label= "#{ @contest.start_at } - #{ @contest.end_at }"
   - if admin_user?
     %p.col-sm-4.text-right= link_to "コンテスト情報を編集する", edit_contest_path(@contest)
+.description
+  %p= simple_format(@contest.description)
 
 - if @contest.contestant?(current_user) or @contest.past?
   %h2 順位表
