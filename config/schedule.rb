@@ -9,6 +9,5 @@ every :sunday, at: '0am' do
 end
 
 every 2.minutes do
-  runner_with_setlock 'DataUpdater.update_submissions'
-  runner_with_setlock 'DataUpdater.update_standings'
+  runner_with_setlock 'DataUpdater.update_contests'
 end

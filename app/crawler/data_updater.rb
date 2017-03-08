@@ -6,10 +6,19 @@ module DataUpdater
       OnlineJudge::AtCoder.update_user_info(user.atcoder_id)
       sleep(1.0)
     end
-    Rails.logger.info "Succeded DataUpdater.update_users_info"
+    Rails.logger.info "End DataUpdater.update_users_info"
   end
 
+  def self.update_contests
+    Rails.logger.info "Begin DataUpdater.update_contests"
+    self.update_submissions
+    self.update_standings
+    Rails.logger.info "End DataUpdater.update_contests"
+  end
+
+  private
   def self.update_submissions
+    Rails.logger.info "Begin DataUpdater.update_submissions"
     current_contests = Contest.in_progress
     current_contests.each do |contest|
       problem_sources = Set.new
@@ -20,13 +29,17 @@ module DataUpdater
         OnlineJudge::AtCoder.update_submissions(problem_source)
       end
     end
+    Rails.logger.info "End DataUpdater.update_submissions"
   end
 
   def self.update_standings(in_progress_only: true)
+    Rails.logger.info "Begin DataUpdater.update_standings"
     current_contests = in_progress_only ? Contest.in_progress : Contest.all
     current_contests.each do |contest|
+      Rails.logger.info "update_standings for #{ contest.id }"
       update_standings_for(contest)
     end
+    Rails.logger.info "End DataUpdater.update_standings"
   end
 
   def self.update_standings_for(contest)
