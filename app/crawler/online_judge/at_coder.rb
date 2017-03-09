@@ -21,15 +21,13 @@ module OnlineJudge
       url = 'http://' + problem_source + '.contest.atcoder.jp/submissions/all/1'
       doc = Nokogiri::HTML.parse(open(url).read)
       page_max = [page_max, doc.css('div.pagination > ul > li')[-2].children.text.to_i].min
-
       latest_judged_id  = ProblemSource.find_by(problem_source: problem_source).try(:latest_submission_id)
-      latest_judging_id = Submission.latest_judging_submission_id(problem_source)
 
       users = User.all.group_by(&:atcoder_id)
       latest_submission_id = nil
       (1...page_max).each do |page|
         submissions =  self.get_submission(problem_source, page)
-        latest_submission_id = submissions[0][:submission_id] if page == 1
+        latest_submission_id ||= submissions[0][:submission_id]
         continue = true
         for submission in submissions
           if diff_only and latest_judged_id and submission[:submission_id] <= latest_judged_id
@@ -40,17 +38,16 @@ module OnlineJudge
 
           user = users[submission[:atcoder_id]][0]
           submission.delete(:atcoder_id)
-          if latest_judging_id and submission[:submission_id] <= latest_judging_id
-            status_changed = user.submissions.find_by(submission_id: submission[:submission_id])
-            status_changed.update_attributes(submission)
-          else
-            user.submissions.create(submission)
-          end
+          s = Submission.find_or_initialize_by(submission_id: submission[:submission_id])
+          s.update_attributes(submission)
+          s.user_id = user.id
+          s.save!
+          puts s.inspect
         end
         break unless continue
         sleep(1.0)
       end
-      
+      update_latest_submission_id(problem_source, latest_submission_id)
     end
 
     def self.update_user_info(atcoder_id)
@@ -123,19 +120,16 @@ module OnlineJudge
         tmp[:problem_source] = problem_source
         tmp[:status]         = submission.css('td > span')[0].inner_text
         tmp[:date]           = submission.css('td')[0].inner_text
-        if tmp[:status] == 'WJ' or tmp[:status].match(%r{[0-9]*\/[0-9]})
-          tmp[:status] = 'Judging'
-        end
+        next if tmp[:status] == 'WJ' or tmp[:status].match(%r{[0-9]*\/[0-9]})
         submissions_list << tmp
       end
       submissions_list
     end
-  end
 
-  def self.update_latest_submission_id(problem_source, latest_submission_id)
-    ps = ProblemSource.find_or_initialize_by(problem_source: problem_source)
-    ps.latest_submission_id = latest_submission_id
-    ps.save
+    def self.update_latest_submission_id(problem_source, latest_submission_id)
+      ps = ProblemSource.find_or_initialize_by(problem_source: problem_source)
+      ps.latest_submission_id = latest_submission_id
+      ps.save
+    end
   end
-
 end
