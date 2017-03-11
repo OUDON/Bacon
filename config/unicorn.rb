@@ -5,8 +5,8 @@ timeout 30
 preload_app true
 
 working_directory "#{ app_path }/current"
-listen "#{ app_path }/shared/tmp/sockets/unicorn.sock"
-pid "#{ app_path }/shared/tmp/pids/unicorn.pid"
+listen "#{ app_path }/current/tmp/sockets/unicorn.sock"
+pid "#{ app_path }/current/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
