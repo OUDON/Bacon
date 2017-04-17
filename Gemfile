@@ -48,6 +48,7 @@ group :development, :test do
   gem 'rspec-rails', '>= 3.5.1'
   gem 'capybara'
   gem 'factory_girl_rails'
+  gem 'email_spec'
 end
 
 group :pdocution, :staging do
