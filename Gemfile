@@ -49,6 +49,11 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'email_spec'
+
+  gem 'pry-rails'
+  gem 'pry-doc'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
 end
 
 group :pdocution, :staging do
