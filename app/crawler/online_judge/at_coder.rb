@@ -42,7 +42,6 @@ module OnlineJudge
           s.update_attributes(submission)
           s.user_id = user.id
           s.save!
-          puts s.inspect
         end
         break unless continue
         sleep(1.0)
