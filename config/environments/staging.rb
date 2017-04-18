@@ -45,9 +45,8 @@ Rails.application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
-
-  # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
+  config.logger = Logger.new("log/staging.log", 3, 10 * 1024 * 1024)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
