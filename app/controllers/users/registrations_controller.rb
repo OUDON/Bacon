@@ -38,11 +38,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :atcoder_id])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :atcoder_id, :aoj_id])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :atcoder_id])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:email, :atcoder_id, :aoj_id])
   end
 
   # The path used after sign up.

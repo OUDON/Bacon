@@ -2,8 +2,9 @@ ja:
   activerecord:
     attributes:
       user:
-        user_name: 'ユーザ名'
-        atcoder_id:  'AtCoder ID'
+        user_name:  'ユーザ名'
+        atcoder_id: 'AtCoder ID'
+        aoj_id:     'AOJ ID'
       contest:
         start_at: '開始日時'
         end_at:   '終了日時'

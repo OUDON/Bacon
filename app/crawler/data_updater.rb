@@ -1,3 +1,5 @@
+require './app/crawler/online_judge/online_judge'
+
 module DataUpdater
   def self.update_users_info
     Rails.logger.info "Begin DataUpdater.update_users_info"
@@ -19,16 +21,21 @@ module DataUpdater
   private
   def self.update_submissions
     Rails.logger.info "Begin DataUpdater.update_submissions"
+
+    problem_sources = Set.new
     current_contests = Contest.in_progress
+
     current_contests.each do |contest|
-      problem_sources = Set.new
       contest.problems.each do |problem|
         problem_sources.add(problem.problem_source)
       end
-      problem_sources.each do |problem_source|
-        OnlineJudge::AtCoder.update_submissions(problem_source)
-      end
     end
+
+    problem_sources.add('aoj')
+    problem_sources.each do |problem_source|
+      OnlineJudge.update_submissions(problem_source, diff_only: true, page_max: 50)
+    end
+
     Rails.logger.info "End DataUpdater.update_submissions"
   end
 
@@ -52,4 +59,3 @@ module DataUpdater
     standings.update(submissions)
   end
 end
-

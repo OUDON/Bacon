@@ -8,6 +8,6 @@ every :sunday, at: '0am' do
   runner 'DataUpdater.update_users_info'
 end
 
-every 2.minutes do
+every 5.minutes do
   runner_with_setlock 'DataUpdater.update_contests'
 end
