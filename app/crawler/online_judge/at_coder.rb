@@ -15,6 +15,12 @@ module OnlineJudge
       'user-unrated' => '#000000',
     }.freeze
 
+    def self.user_exists?(atcoder_id)
+      url = "https://atcoder.jp/user/#{ atcoder_id }"
+      doc = Nokogiri::HTML.parse(open(url).read)
+      doc.css('h3 > a.username > span').any?
+    end
+
     def self.update_submissions(problem_source, diff_only: true, page_max: 10)
       Rails.logger.info("Crawling submissions for #{ problem_source }")
 
@@ -64,7 +70,7 @@ module OnlineJudge
     end
 
     def self.get_user_info(atcoder_id)
-      url = 'https://atcoder.jp/user/' + atcoder_id
+      url = "https://atcoder.jp/user/#{ atcoder_id }"
       doc = Nokogiri::HTML.parse(open(url).read)
       user_span = doc.css('h3 > a.username > span')
       return false unless user_span.any?

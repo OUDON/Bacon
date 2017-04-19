@@ -5,6 +5,12 @@ module OnlineJudge
   class AOJ
     API_URL_BASE = 'http://judge.u-aizu.ac.jp/onlinejudge/webservice/'
 
+    def self.user_exists?(aoj_id)
+      url = API_URL_BASE + "user?id=#{ aoj_id }"
+      xml = Nokogiri::XML.parse(open(url).read)
+      xml.css('user > id').any?
+    end
+
     def self.update_submissions(problem_source, diff_only: true, page_max: 10)
       users = User.all
       users.each do |user|
@@ -87,5 +93,6 @@ module OnlineJudge
         'TLE'
       end
     end
+
   end
 end
