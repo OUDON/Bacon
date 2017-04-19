@@ -8,7 +8,6 @@ class ContestsController < ApplicationController
 
   def create
     @contest = Contest.new(contest_params)
-    binding.pry
     if @contest.save
       flash[:success] = 'コンテストを作成しました'
       redirect_to edit_contest_path(@contest.id)
