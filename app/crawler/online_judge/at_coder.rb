@@ -89,7 +89,6 @@ module OnlineJudge
     def self.get_problem_info(url)
       url_regexp = /https?:\/\/(?<problem_source>.*)\.contest.atcoder.jp\/tasks\/(?<problem_id>.*)/
       url_match = url.match(url_regexp)
-      p url_match
       return nil unless url_match
 
       problem_info = { 

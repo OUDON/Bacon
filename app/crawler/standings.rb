@@ -13,6 +13,7 @@ class Standings
   def update(submissions)
     initialize_standings
     return if !contest.users.any? and !problems.any?
+
     submissions.each do |submission|
       author = submission.user_id
       problem = problem_idxs[[submission.problem_source, submission.problem_id]]
@@ -27,6 +28,7 @@ class Standings
         standings_row.problem_statuses[problem].penalty_wa += 1
       end
     end
+
     compute_penalty
     compute_rank
     contest.standings = standings

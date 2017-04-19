@@ -1,6 +1,8 @@
+require './app/crawler/online_judge/online_judge'
+
 class ProblemsController < ApplicationController
   def create
-    problem_info = OnlineJudge::AtCoder.get_problem_info(params[:problem][:url])
+    problem_info = OnlineJudge.get_problem_info(params[:problem][:url])
     contest = Contest.find(params[:contest_id])
     if problem_info
       if contest.problems.create(problem_info)
