@@ -6,5 +6,7 @@ ja:
         atcoder_id: 'AtCoder ID'
         aoj_id:     'AOJ ID'
       contest:
+        title:    'タイトル'
         start_at: '開始日時'
         end_at:   '終了日時'
+        

@@ -3,8 +3,14 @@ class Contest < ApplicationRecord
 
   has_many :contestants, dependent: :destroy
   has_many :users,       through: :contestants
-  has_many :problems, dependent: :destroy
+  has_many :problems,    dependent: :destroy
   serialize :standings, Array
+
+  validates :title,    presence: true, length: { maximum: 50 }
+  validates :start_at, presence: true
+  validates :end_at,   presence: true
+  validate :correct_date_range
+
   scope :in_progress, ->(at=Time.now) { where('start_at <= ? and ? < end_at', at, at) }
   scope :future,      ->(at=Time.now) { where('start_at > ?', at) }
   scope :past,        ->(at=Time.now) { where('end_at <= ?', at) }
@@ -31,5 +37,12 @@ class Contest < ApplicationRecord
 
   def contestant?(user)
     users.include?(user)
+  end
+
+  private
+  def correct_date_range
+    unless start_at < end_at
+      errors.add(:start_at, " は終了時刻より前に設定して下さい")
+    end
   end
 end
