@@ -21,6 +21,7 @@ class ProblemsController < ApplicationController
     contest = Contest.find(params[:contest_id])
     contest.problems.find(params[:id]).destroy
     flash[:success] = '問題を削除しました'
+    DataUpdater::update_standings_for(contest)
     redirect_to edit_contest_path(contest)
   end
 end

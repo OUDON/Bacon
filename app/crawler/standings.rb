@@ -12,7 +12,7 @@ class Standings
 
   def update(submissions)
     initialize_standings
-    return if !contest.users.any? and !problems.any?
+    return if !contest.users.any?
 
     submissions.each do |submission|
       author = submission.user_id
