@@ -1,6 +1,6 @@
 module OnlineJudge
   URL_MATCHER = {
-    AOJ =>     /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=[0-9]+/,
+    AOJ =>     /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=[0-9A-Z_]+.*/,
     AtCoder => /https?:\/\/.+\.contest\.atcoder\.jp\/tasks\/.+/,
   }.freeze
 

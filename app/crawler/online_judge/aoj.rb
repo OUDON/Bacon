@@ -62,7 +62,7 @@ module OnlineJudge
     end
 
     def self.get_problem_info(url)
-      url_regexp = /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=(?<problem_id>[0-9]+)/
+      url_regexp = /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=(?<problem_id>[0-9A-Z_]+).*/
       url_match = url.match(url_regexp)
       return nil unless url_match
 
