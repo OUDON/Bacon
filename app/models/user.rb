@@ -23,4 +23,9 @@ class User < ApplicationRecord
       end
     end
   end
+
+
+  def aoj_solved_count
+    aoj_id ? Submission.aoj_solved_count(self.id) : '-'
+  end
 end

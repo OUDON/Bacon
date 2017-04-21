@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   }
 
   resources :contestants, only: [:create]
+  resources :users, only: [:index]
   resources :contests do
     resources :problems, only: [:create, :destroy]
   end

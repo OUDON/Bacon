@@ -1,0 +1,16 @@
+.row
+  .col-sm-10.col-sm-offset-1
+    %h1.page-header ユーザ 一覧
+    .users
+      %table.table.table-hover
+        %thead
+          %tr
+            %th ユーザ名
+            %th AtCoder レート
+            %th AOJ Solved 数
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td= colored_name_link_tag(user)
+              %td= user.atcoder_rating
+              %td= user.aoj_solved_count

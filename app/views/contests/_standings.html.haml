@@ -15,8 +15,7 @@
       %tr
         %td.center.middle= row.rank
         %td.center.middle
-          %a{ style: "color:#{ name_color };", class: "user-name", href: '#' }
-            = user_name
+          = colored_name_link_tag(user)
         - row.problem_statuses.each do |result|
           %td.center.middle
             - if result.accepted

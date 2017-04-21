@@ -2,6 +2,9 @@
   .container
     = link_to 'Bacon', root_path, id: 'logo'
     %nav
+      %ul.nav.navbar-nav.navbar-left
+        %li= link_to 'コンテスト', contests_path
+        %li= link_to 'ユーザ一覧', users_path
       %ul.nav.navbar-nav.navbar-right
         - if signed_in?
           - if admin_user?
