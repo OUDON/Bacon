@@ -13,29 +13,36 @@ module OnlineJudge
 
     def self.update_submissions(problem_source, diff_only: true, page_max: 10)
       users = User.all
+      latest_judged_id = Submission.latest_judged_submission_id("aoj")
+
       users.each do |user|
         next unless user.aoj_id
-        latest_judged_id = Submission.latest_judged_submission_id("aoj")
+        update_submissions_for(user,
+           diff_only: diff_only,
+           latest_judged_id: latest_judged_id,
+           page_max: page_max
+        )
+      end
+    end
 
-        (0...page_max).each do |page|
-          submissions = get_submissions(user.aoj_id, page)
-          break unless submissions.any?
-          continue = true
+    def self.update_submissions_for(user, diff_only: true, latest_judged_id: nil, page_max: 10)
+      (0...page_max).each do |page|
+        submissions = get_submissions(user.aoj_id, page)
+        sleep(1.0)
+        break unless submissions.any?
 
-          submissions.each do |submission|
-            if latest_judged_id && submission[:submission_id] <= latest_judged_id
-              continue = false 
-              break
-            end
-
-            submission.delete(:aoj_id)
-            s = user.submissions.build(submission)
-            s.save!
+        continue = true
+        submissions.each do |submission|
+          if latest_judged_id && submission[:submission_id] <= latest_judged_id
+            continue = false 
+            break
           end
 
-          sleep(1.0)
-          break if !diff_only and  continue
+          submission.delete(:aoj_id)
+          s = user.submissions.find_or_initialize_by(submission)
+          s.save!
         end
+        return false if !diff_only and !continue
       end
     end
 
@@ -93,6 +100,5 @@ module OnlineJudge
         'TLE'
       end
     end
-
   end
 end
