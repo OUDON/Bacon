@@ -8,6 +8,10 @@
     .description
       %p= simple_format(@contest.description)
 
+    - if !current_user.aoj_id && @contest.problem_sources.include?('aoj')
+      .alert.alert-warning
+        このコンテストには AOJ の問題が含まれますが, AOJ ID が設定されていません
+
     - if @contest.contestant?(current_user) or @contest.past?
       %h2 順位表
       .standings

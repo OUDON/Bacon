@@ -39,6 +39,10 @@ class Contest < ApplicationRecord
     users.include?(user)
   end
 
+  def problem_sources
+    problems.pluck(:problem_source).uniq
+  end
+
   private
   def correct_date_range
     unless start_at < end_at
