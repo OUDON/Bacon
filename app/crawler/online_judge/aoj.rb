@@ -12,20 +12,21 @@ module OnlineJudge
     end
 
     def self.update_submissions(problem_source, diff_only: true, page_max: 10)
-      users = User.all
-      latest_judged_id = Submission.latest_judged_submission_id("aoj")
+      Rails.logger.info("Crawling submissions for #{ problem_source }")
 
+      users = User.all
       users.each do |user|
         next unless user.aoj_id
         update_submissions_for(user,
            diff_only: diff_only,
-           latest_judged_id: latest_judged_id,
            page_max: page_max
         )
       end
     end
 
-    def self.update_submissions_for(user, diff_only: true, latest_judged_id: nil, page_max: 10)
+    def self.update_submissions_for(user, diff_only: true, page_max: 10)
+      latest_judged_id = user.submissions.latest_judged_submission_id("aoj")
+
       (0...page_max).each do |page|
         submissions = get_submissions(user.aoj_id, page)
         sleep(1.0)
@@ -42,7 +43,7 @@ module OnlineJudge
           s = user.submissions.find_or_initialize_by(submission)
           s.save!
         end
-        return false if !diff_only and !continue
+        return if diff_only and !continue
       end
     end
 
