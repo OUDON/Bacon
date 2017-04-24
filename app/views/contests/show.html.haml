@@ -21,6 +21,9 @@
         .standings.tab-pane.in.active#standings
           = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
         .tab-pane#submissions
-          = render 'submissions', { submissions: @contest.submissions }
+          - if @contest.submissions.any?
+            = render 'submissions', { submissions: @contest.submissions }
+          - else
+            提出がありません
     - else
       = render 'registration'
