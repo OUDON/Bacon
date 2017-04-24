@@ -13,8 +13,14 @@
         このコンテストには AOJ の問題が含まれますが, AOJ ID が設定されていません
 
     - if @contest.contestant?(current_user) or @contest.past?
-      %h2 順位表
-      .standings
-        = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
+      %ul.nav.nav-tabs
+        %li.nav-item.active= link_to '順位表', '#standings', 'data-toggle': 'tab'
+        %li.nav-item=        link_to '提出一覧', '#submissions', 'data-toggle': 'tab'
+
+      .tab-content
+        .standings.tab-pane.in.active#standings
+          = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
+        .tab-pane#submissions
+          = render 'submissions', { submissions: @contest.submissions }
     - else
       = render 'registration'

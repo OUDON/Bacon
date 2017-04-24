@@ -1,0 +1,24 @@
+.submissions
+  %table.table.table-hover
+    %thead
+      %tr
+        %th{ width: '25%' } 提出者
+        %th{ width: '30%' } 問題名
+        %th{ width: '10%' } 結果
+        %th{ width: '25%' } 時刻
+        %th
+    %tbody
+      - submissions.each do |submission|
+        %tr
+          %td= colored_name_link_tag(submission.user_name, submission.name_color)
+          %td= link_to submission.title, submission.url
+          %td 
+            - case submission.status
+              - when "AC"
+                %span.label.label-success<>= 'AC'
+              - when "WA"
+                %span.label.label-danger<>= 'WA'
+              - else
+                %span.label.label-warning<>= submission.status
+          %td= submission.date
+          %td= link_to "詳細", submission.detail_url

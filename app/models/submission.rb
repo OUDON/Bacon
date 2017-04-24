@@ -20,4 +20,13 @@ class Submission < ApplicationRecord
                                .limit(1)
     latest_judging[0].try('submission_id')
   end
+
+  def detail_url
+    case problem_source
+    when "aoj"
+      "http://judge.u-aizu.ac.jp/onlinejudge/review.jsp?rid=#{ submission_id }#1"
+    else
+      "http://#{ problem_source }.contest.atcoder.jp/submissions/#{ submission_id }"
+    end
+  end
 end
