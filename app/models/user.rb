@@ -19,13 +19,10 @@ class User < ApplicationRecord
 
   private
   def blank_to_nil
-    binding.pry
     self.aoj_id = nil if aoj_id == ""
   end
 
   def online_judge_id_must_exists
-    binding.pry
-
     column_name = {
       OnlineJudge::AtCoder => :atcoder_id,
       OnlineJudge::AOJ     => :aoj_id,
