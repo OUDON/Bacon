@@ -49,6 +49,9 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'email_spec'
+  gem 'database_cleaner'
+  gem 'rails-controller-testing'
+  gem 'shoulda-matchers'
 
   gem 'pry-rails'
   gem 'pry-doc'
