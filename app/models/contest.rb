@@ -11,9 +11,9 @@ class Contest < ApplicationRecord
   validates :end_at,   presence: true
   validate :correct_date_range
 
-  scope :in_progress, ->(at=Time.now) { where('start_at <= ? and ? < end_at', at, at) }
-  scope :future,      ->(at=Time.now) { where('start_at > ?', at) }
-  scope :past,        ->(at=Time.now) { where('end_at <= ?', at) }
+  scope :in_progress, ->(at=Time.now) { where('start_at <= ? and ? < end_at', at, at).order(:start_at, :end_at) }
+  scope :future,      ->(at=Time.now) { where('start_at > ?', at).order(:start_at, :end_at) .order(:start_at, :end_at) }
+  scope :past,        ->(at=Time.now) { where('end_at <= ?', at).order(end_at: :desc, start_at: :desc) }
 
   def registration(user)
     contestants.create(user_id: user.id) unless contestants.exists?(user_id: user.id)
