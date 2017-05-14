@@ -2,6 +2,6 @@ class UsersController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @users = User.order(atcoder_rating: :desc)
+    @users = User.all.sort_by { |u| [u.atcoder_rating, u.aoj_solved_count] }.reverse!
   end
 end

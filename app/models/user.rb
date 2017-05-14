@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :submissions, dependent: :destroy
 
   def aoj_solved_count
-    aoj_id ? Submission.aoj_solved_count(self.id) : '-'
+    Submission.aoj_solved_count(self.id)
   end
 
   private
