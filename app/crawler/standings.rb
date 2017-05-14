@@ -47,7 +47,7 @@ class Standings
   def compute_penalty
     standings.values.each do |row|
       row.penalty_time = row.problem_statuses.map(&:penalty_time).max || 0
-      row.penalty_wa = row.problem_statuses.map(&:penalty_wa).sum || 0
+      row.penalty_wa = row.problem_statuses.select { |p| p.accepted }.map(&:penalty_wa).sum || 0
       row.penalty = row.penalty_time + row.penalty_wa * contest.penalty_time * 60
     end
   end
