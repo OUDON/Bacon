@@ -48,13 +48,13 @@ class Contest < ApplicationRecord
   end
 
   def submissions
-    problem_condition = problems.pluck(:problem_source, :problem_id).map { |array| array.join("") }
     Submission.joins(:user)
               .joins('inner join problems on submissions.problem_source = problems.problem_source and submissions.problem_id = problems.problem_id')
               .select('submissions.*, users.*, problems.title, problems.url')
-              .where(users: { id: contestants.pluck(:user_id)}, date: date_range)
+              .where(users: { id: contestants.pluck(:user_id) }, date: date_range)
               .where(submissions: { problem_source: problem_sources, problem_id: problem_ids})
               .order(date: :desc)
+              .uniq(:submission_id)
   end
 
   private
