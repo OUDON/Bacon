@@ -4,6 +4,12 @@ FactoryGirl.define do
     atcoder_id     "test_user"
     atcoder_rating 0
     admin          false
-    email          "test@example.com"
+    email          { Faker::Internet.email }
+
+    factory :user_without_validate do
+      to_create do |instance|
+        instance.save validate: false
+      end
+    end
   end
 end
