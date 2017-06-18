@@ -34,7 +34,7 @@ module OnlineJudge
 
         continue = true
         submissions.each do |submission|
-          if latest_judged_id && submission[:submission_id] <= latest_judged_id
+          if latest_judged_id && submission[:submission_id].to_i <= latest_judged_id.to_i
             continue = false 
             break
           end

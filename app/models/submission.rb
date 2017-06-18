@@ -8,14 +8,14 @@ class Submission < ApplicationRecord
                                         .count(:problem_id) }
 
   def self.latest_judged_submission_id(problem_source)
-    latest_judged  = Submission.order(submission_id: :desc)
+    latest_judged  = Submission.order('cast(submission_id as integer) desc')
                                .where("problem_source = ? and status != 'Judging'", problem_source)
                                .limit(1)
     latest_judged[0].try('submission_id')
   end
 
   def self.latest_judging_submission_id(problem_source)
-    latest_judging = Submission.order(submission_id: :desc)
+    latest_judging = Submission.order('cast(submission_id as integer) desc')
                                .where("problem_source = ? and status = 'Judging'", problem_source)
                                .limit(1)
     latest_judging[0].try('submission_id')

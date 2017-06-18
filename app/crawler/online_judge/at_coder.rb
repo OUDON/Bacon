@@ -36,7 +36,7 @@ module OnlineJudge
         latest_submission_id ||= submissions[0][:submission_id]
         continue = true
         for submission in submissions
-          if diff_only and latest_judged_id and submission[:submission_id] <= latest_judged_id
+          if diff_only and latest_judged_id and submission[:submission_id].to_i <= latest_judged_id.to_i
             continue = false
             break
           end
