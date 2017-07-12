@@ -6,7 +6,7 @@ default: &default-development
 default: &default-production
   adapter: postgresql
   encoding: unicode
-  host: localhost
+  host: <%= ENV['RAILS_DATABASE_HOST'] || "localhost" %>
   pool: 5
   username: <%= ENV['RAILS_DATABASE_USERNAME'] %>
   password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
