@@ -1,6 +1,13 @@
 require './app/crawler/online_judge/online_judge'
 
 class ProblemsController < ApplicationController
+  before_action :admin_user, only: [:create, :destroy]
+  before_action :logged_in_user, only: [:index]
+
+  def index
+    @contest = Contest.find(params[:contest_id])
+  end
+
   def create
     problem_info = OnlineJudge.get_problem_info(params[:problem][:url])
     contest = Contest.find(params[:contest_id])

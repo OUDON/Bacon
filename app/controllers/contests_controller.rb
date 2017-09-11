@@ -25,6 +25,7 @@ class ContestsController < ApplicationController
   def show
     @contest = Contest.find(params[:id])
     @users   = User.all
+    redirect_to contest_problems_path(params[:id])
   end
 
   def edit

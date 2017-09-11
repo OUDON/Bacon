@@ -1,0 +1,7 @@
+%ul.nav.nav-tabs
+  %li{ class: ['nav-item', ('active' if active_tab == :problems)] }
+    = link_to '問題一覧', contest_problems_path
+  %li{ class: ['nav-item', ('active' if active_tab == :standing)] }
+    = link_to '順位表', contest_standing_path
+  %li{ class: ['nav-item', ('active' if active_tab == :submissions)] }
+    = link_to '提出一覧', contest_submissions_path

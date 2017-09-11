@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :contestants, only: [:create]
   resources :users, only: [:index]
   resources :contests do
-    resources :problems, only: [:create, :destroy]
+    resources :problems,    only: [:index, :create, :destroy]
+    resource  :standing,    only: [:show]
+    resources :submissions, only: [:index]
   end
 end
