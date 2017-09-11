@@ -14,8 +14,8 @@
           %tbody
             - @contest.problems.each.with_index do |problem, i|
               %tr
-                %td.center= link_to ('A'.ord + i).chr, problem.url
-                %td= link_to problem.title, problem.url
+                %td.center= link_to ('A'.ord + i).chr, problem.url, target: :_blank
+                %td= link_to problem.title, problem.url, target: :_blank
 
     - else
       = render 'contests/registration'
