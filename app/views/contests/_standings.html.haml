@@ -3,9 +3,9 @@
     %tr
       %th.center{ width: '5%'  } 順位
       %th.center{ width: '15%' } ユーザ名
-      - problems.each do |problem|
+      - problems.each.with_index do |problem, i|
         %th.center
-          %a{ href: problem.url, target: '_blank' }= problem.title
+          = link_to ('A'.ord + i).chr, problem.url, target: :_blank
       %th.center{ width: '10%' } 得点
   %tbody
     - standings.each do |row|
