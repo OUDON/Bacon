@@ -54,7 +54,7 @@ class Standings
 
   def compute_rank
     standings_array = standings.values
-    @standings = standings_array.sort_by{ |row| [-row.score, row.penalt] }
+    @standings = standings_array.sort_by{ |row| [-row.score, row.penalty] }
     return unless standings.any?
 
     standings[0].rank = 1
