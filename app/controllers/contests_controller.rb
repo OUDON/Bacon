@@ -1,6 +1,6 @@
 class ContestsController < ApplicationController
   before_action :admin_user, only: [:new, :create, :edit, :update]
-  before_action :logged_in_user, only: [:show, :index]
+  before_action :logged_in_user, only: [:show]
   
   def new
     @contest = Contest.new
