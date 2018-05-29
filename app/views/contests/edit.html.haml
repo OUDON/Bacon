@@ -1,16 +1,14 @@
-.row
-  .col-sm-10.col-sm-offset-1
-    %h1.page-header= @contest.title
-    %p.text-right= link_to 'コンテストページに戻る', contest_path(@contest)
-    %h2 コンテスト情報
-    %div
-      = render 'contest_form'
+%h1.page-header= @contest.title
+%p.text-right= link_to 'コンテストページに戻る', contest_path(@contest)
+%h2 コンテスト情報
+%div
+  = render 'contest_form'
 
-    %h2 問題一覧
-    - if @contest.problems.any?
-      = render 'edit_problem_list', contest: @contest
-    - else
-      %p 問題がありません
+%h2 問題一覧
+- if @contest.problems.any?
+  = render 'edit_problem_list', contest: @contest
+- else
+  %p 問題がありません
 
-    %h2 問題を追加
-    = render 'add_problem_form', contest: @contest, problem: @new_problem
+%h2 問題を追加
+= render 'add_problem_form', contest: @contest, problem: @new_problem

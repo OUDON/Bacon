@@ -1,19 +1,17 @@
-.row
-  .col-sm-10.col-sm-offset-1
-    = render 'contest_header', { contest: @contest }
-    
-    - if @contest.contestant?(current_user) or @contest.past?
-      %ul.nav.nav-tabs
-        %li.nav-item.active= link_to '順位表', '#standings', 'data-toggle': 'tab'
-        %li.nav-item=        link_to '提出一覧', '#submissions', 'data-toggle': 'tab'
+= render 'contest_header', { contest: @contest }
 
-      .tab-content
-        .standings.tab-pane.in.active#standings
-          = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
-        .tab-pane#submissions
-          - if @contest.submissions.any?
-            = render 'submissions', { submissions: @contest.submissions }
-          - else
-            提出がありません
-    - else
-      = render 'registration'
+- if @contest.contestant?(current_user) or @contest.past?
+  %ul.nav.nav-tabs
+    %li.nav-item.active= link_to '順位表', '#standings', 'data-toggle': 'tab'
+    %li.nav-item=        link_to '提出一覧', '#submissions', 'data-toggle': 'tab'
+
+  .tab-content
+    .standings.tab-pane.in.active#standings
+      = render 'standings', { standings: @contest.standings, problems: @contest.problems, users: @users }
+    .tab-pane#submissions
+      - if @contest.submissions.any?
+        = render 'submissions', { submissions: @contest.submissions }
+      - else
+        提出がありません
+- else
+  = render 'registration'

@@ -9,5 +9,7 @@
   %body
     = render 'layouts/header'
     .container
-      =render 'layouts/flash_message'
-      = yield
+      .row
+        .col-sm-10.col-sm-offset-1
+          =render 'layouts/flash_message'
+          = yield
