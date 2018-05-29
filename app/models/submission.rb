@@ -3,7 +3,7 @@ class Submission < ApplicationRecord
   validates :submission_id, uniqueness: true
 
   scope :aoj_solved_count, -> user_id { where(problem_source: 'aoj', user_id: user_id, status: 'AC')
-                                        .where('cast(problem_id as integer) < 10000')
+                                        .where('length(problem_id) == 4') # problems from standard volumes
                                         .distinct
                                         .count(:problem_id) }
 
