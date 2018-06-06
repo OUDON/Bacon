@@ -1,6 +1,7 @@
 class SubmissionsController < ApplicationController
   before_action only: [:index] do
-    contestant_user(Contest.find(params[:contest_id]))
+    contest = Contest.find(params[:contest_id])
+    contestant_user(contest) if !contest.past?
   end
 
   def index

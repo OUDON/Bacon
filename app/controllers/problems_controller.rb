@@ -3,7 +3,8 @@ require './app/crawler/online_judge/online_judge'
 class ProblemsController < ApplicationController
   before_action :admin_user, only: [:create, :destroy]
   before_action only: [:index] do
-    contestant_user(Contest.find(params[:contest_id]))
+    contest = Contest.find(params[:contest_id])
+    contestant_user(contest) if !contest.past?
   end
 
   def index
