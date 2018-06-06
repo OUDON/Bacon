@@ -1,6 +1,16 @@
 = render 'contest_header', { contest: @contest }
 = render 'contests/tabs', { active_tab: :home, contest_id: params[:id] }
 
-コンテストホーム
-- if current_user and !@contest.contestant?(current_user)
+- if current_user and !@contest.contestant?(current_user) and !@contest.past?
   = render 'registration'
+
+.description
+  %p= simple_format(@contest.description)
+
+%dl.dl-horizontal
+  %dt コンテスト時間
+  %dd= "#{@contest.duration}分"
+  %dt 問題数
+  %dd= "#{@contest.problems.count}問"
+  %dt ペナルティ
+  %dd= "#{@contest.penalty_time}分"

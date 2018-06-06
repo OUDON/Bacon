@@ -23,6 +23,10 @@ class Contest < ApplicationRecord
     start_at..end_at
   end
 
+  def duration
+    ((end_at.to_time - start_at.to_time)/60).to_i
+  end
+
   def in_progress?(at=Time.now)
     start_at <= at and at < end_at
   end
