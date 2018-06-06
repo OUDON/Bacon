@@ -2,10 +2,9 @@ module OnlineJudge
   require 'open-uri'
   require 'nokogiri'
 
-  # This class is crawler for beta.atcoder.jp
-  class AtCoder
-    URL_BASE = "https://beta.atcoder.jp"
-
+  # This class is crawler for atcoder.jp (non AtCoder Beta)
+  # AtCoder Beta is usable for users
+  class AtCoderOld
     NAME_COLOR = { 
       'user-red'     => '#FF0000',
       'user-orange'  => '#FF8000',
@@ -19,24 +18,22 @@ module OnlineJudge
     }.freeze
 
     def self.user_exists?(atcoder_id)
-      url = "#{URL_BASE}/users/#{atcoder_id}"
-      open(url).read
-      true
-    rescue => e
-      false
+      url = "https://atcoder.jp/user/#{ atcoder_id }"
+      doc = Nokogiri::HTML.parse(open(url).read)
+      doc.css('h3 > a.username > span').any?
     end
 
     def self.update_submissions(problem_source, diff_only: true, page_max: 10)
       Rails.logger.info("Crawling submissions for #{ problem_source }")
 
-      url = "#{URL_BASE}/contests/#{problem_source}/submissions"
+      url = 'http://' + problem_source + '.contest.atcoder.jp/submissions/all/1'
       doc = Nokogiri::HTML.parse(open(url).read)
-      page_max = [page_max, doc.css('ul.pagination > li')[-1].children.text.to_i].min
+      page_max = [page_max, doc.css('div.pagination > ul > li')[-2].children.text.to_i].min
       latest_judged_id  = ProblemSource.find_by(problem_source: problem_source).try(:latest_submission_id)
 
       users = User.all.group_by(&:atcoder_id)
       latest_submission_id = nil
-      (1..page_max).each do |page|
+      (1...page_max).each do |page|
         submissions =  self.get_submission(problem_source, page)
         latest_submission_id ||= submissions[0][:submission_id]
         continue = true
@@ -74,7 +71,7 @@ module OnlineJudge
     end
 
     def self.get_user_info(atcoder_id)
-      url = "#{URL_BASE}/users/#{atcoder_id}"
+      url = "https://atcoder.jp/user/#{ atcoder_id }"
       doc = Nokogiri::HTML.parse(open(url).read)
       user_span = doc.css('h3 > a.username > span')
       return false unless user_span.any?
@@ -91,14 +88,13 @@ module OnlineJudge
       if user_name_class == 'user-unrated'
         user_info[:atcoder_rating] = 0
       else
-        rating = doc.css('table.dl-table')[1].css("tr > td")[1].inner_text.rstrip
-        user_info[:atcoder_rating] = rating
+        user_info[:atcoder_rating] = doc.css('dd > span')[0].inner_text
       end
       user_info
     end
 
     def self.get_problem_info(url)
-      url_regexp = /#{URL_BASE}\/contests\/(?<problem_source>.*)\/tasks\/(?<problem_id>.*)/
+      url_regexp = /https?:\/\/(?<problem_source>.*)\.contest.atcoder.jp\/tasks\/(?<problem_id>.*)/
       url_match = url.match(url_regexp)
       return nil unless url_match
 
@@ -109,7 +105,7 @@ module OnlineJudge
       }
 
       doc = Nokogiri::HTML.parse(open(url).read)
-      title_match = doc.css('span.h2').inner_text.match(/.\s-\s(?<title>.*)/)
+      title_match = doc.css('h2').inner_text.match(/.\s-\s(?<title>.*)/)
       return nil unless title_match
       problem_info[:title] = title_match[:title]
       problem_info
@@ -117,7 +113,7 @@ module OnlineJudge
 
     private
     def self.get_submission(problem_source, page)
-      url = "#{URL_BASE}/contests/#{problem_source}/submissions?page=#{page}"
+      url = 'http://' + problem_source + '.contest.atcoder.jp/submissions/all/' + page.to_s
       doc = Nokogiri::HTML.parse(open(url).read)
       submissions = doc.css('table > tbody > tr')
 

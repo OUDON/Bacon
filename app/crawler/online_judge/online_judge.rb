@@ -1,7 +1,8 @@
 module OnlineJudge
   URL_MATCHER = {
-    AOJ =>     /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=[0-9A-Z_]+.*/,
-    AtCoder => /https?:\/\/.+\.contest\.atcoder\.jp\/tasks\/.+/,
+    AOJ        => /http:\/\/judge\.u-aizu\.ac\.jp\/onlinejudge\/description\.jsp\?id=[0-9A-Z_]+.*/,
+    AtCoder    => /https?:\/\/beta\.atcoder\.jp\/.*\/tasks\/.+/,
+    AtCoderOld => /https?:\/\/.+\.contest\.atcoder\.jp\/tasks\/.+/,
   }.freeze
 
   def self.get_problem_info(url)
