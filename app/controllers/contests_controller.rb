@@ -1,6 +1,5 @@
 class ContestsController < ApplicationController
   before_action :admin_user, only: [:new, :create, :edit, :update]
-  before_action :logged_in_user, only: [:show]
   
   def new
     @contest = Contest.new
@@ -25,7 +24,6 @@ class ContestsController < ApplicationController
   def show
     @contest = Contest.find(params[:id])
     @users   = User.all
-    redirect_to contest_problems_path(params[:id])
   end
 
   def edit

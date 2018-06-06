@@ -1,13 +1,11 @@
-.row
-  .col-sm-10.col-sm-offset-1
-    = render 'contests/contest_header', { contest: @contest }
-    
-    - if @contest.contestant?(current_user) or @contest.past?
-      = render 'contests/tabs', { active_tab: :submissions }
-      - if @contest.submissions.any?
-        = render 'contests/submissions', { submissions: @contest.submissions }
-      - else
-        提出がありません
+= render 'contests/contest_header', { contest: @contest }
 
-    - else
-      = render 'contests/registration'
+- if @contest.contestant?(current_user) or @contest.past?
+  = render 'contests/tabs', { active_tab: :submissions, contest_id: params[:contest_id] }
+  - if @contest.submissions.any?
+    = render 'contests/submissions', { submissions: @contest.submissions }
+  - else
+    提出がありません
+
+- else
+  = render 'contests/registration'

@@ -17,6 +17,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def contestant_user(contest)
+    if !current_user
+      logged_in_user
+    elsif !contest.contestant?(current_user)
+      flash[:danger] = '参加登録してください'
+      redirect_to contest_path(contest)
+    end
+  end
+
   def admin_user?
     current_user && current_user.admin?
   end

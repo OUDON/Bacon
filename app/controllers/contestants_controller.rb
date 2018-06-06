@@ -1,4 +1,6 @@
 class ContestantsController < ApplicationController
+  before_action :logged_in_user, only: [:create]
+
   def create
     @contest = Contest.find(params[:contest_id])
     if @contest.in_progress? or @contest.future?

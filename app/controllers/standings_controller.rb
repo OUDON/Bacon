@@ -1,5 +1,7 @@
 class StandingsController < ApplicationController
-  before_action :logged_in_user, only: [:show]
+  before_action only: [:show] do
+    contestant_user(Contest.find(params[:contest_id]))
+  end
 
   def show
     @contest = Contest.find(params[:contest_id])

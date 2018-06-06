@@ -1,7 +1,9 @@
 %ul.nav.nav-tabs
+  %li{ class: ['nav-item', ('active' if active_tab == :home)] }
+    = link_to 'ホーム', contest_path(contest_id)
   %li{ class: ['nav-item', ('active' if active_tab == :problems)] }
-    = link_to '問題一覧', contest_problems_path
+    = link_to '問題一覧', contest_problems_path(contest_id)
   %li{ class: ['nav-item', ('active' if active_tab == :standing)] }
-    = link_to '順位表', contest_standing_path
+    = link_to '順位表', contest_standing_path(contest_id)
   %li{ class: ['nav-item', ('active' if active_tab == :submissions)] }
-    = link_to '提出一覧', contest_submissions_path
+    = link_to '提出一覧', contest_submissions_path(contest_id)
